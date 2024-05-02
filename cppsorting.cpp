@@ -15,7 +15,7 @@ bool sorted(vector<int> ls) {
 int randInt(int min,int max){
     random_device                  rand_dev;
     mt19937                        generator(rand_dev());
-    uniform_int_distribution<int>  distr(min, max);
+    uniform_int_distribution<int>  distr(min, max-1);
 
     return distr(generator);
 }
