@@ -1,14 +1,23 @@
 #include <iostream>
 #include <vector>
+#include <random>
 
 using namespace std;
 bool sorted(vector<int> ls) {
-    for(int i=1;i<=ls.size();i++){
+    for(int i=1;i<ls.size();i++){
         if(ls[i] < ls[i-1]){
             return false;
         }
-    return true;
     }
+    return true;
+}
+
+int randInt(int min,int max){
+    random_device                  rand_dev;
+    mt19937                        generator(rand_dev());
+    uniform_int_distribution<int>  distr(min, max);
+
+    return distr(generator);
 }
 
 int printL(vector<int> ls){
@@ -27,12 +36,27 @@ int printL(vector<int> ls){
     return 0;
 }
 
+vector<int> randomize(vector<int> sorted){
+    int len = sorted.size();
+    int max = sorted.size();
+    vector<int> random;
+    random.resize(len);
+    for(int i=0;i<len;i++){
+        int x = randInt(0,max);
+        cout << "x: " << x << " | i: " << i << " | max: " << max <<"\n";
+        random[i] = sorted[x];
+        sorted.erase(sorted.begin()+x);
+        max--;
+    }
+    return random;
+}
+
 int main() {
-    vector<int> unsorted;
-    unsorted.resize(101);
+    vector<int> sorted;
+    sorted.resize(101);
     for(int i = 0; i < 101; i++){
-        unsorted[i] = i;
+        sorted[i] = i;
     }
+    vector<int> unsorted = randomize(sorted);
     printL(unsorted);
-    cout << "\n" << "\n" << (sorted(unsorted));
-    }
+}
