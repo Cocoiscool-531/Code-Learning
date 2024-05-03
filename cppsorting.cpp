@@ -3,6 +3,7 @@
 #include <random>
 
 using namespace std;
+// Check if vector is sorted
 bool sorted(vector<int> ls) {
     for(int i=1;i<ls.size();i++){
         if(ls[i] < ls[i-1]){
@@ -12,6 +13,7 @@ bool sorted(vector<int> ls) {
     return true;
 }
 
+// Return a random int between min and max inclusive
 int randInt(int min,int max){
     random_device                  rand_dev;
     mt19937                        generator(rand_dev());
@@ -20,6 +22,7 @@ int randInt(int min,int max){
     return distr(generator);
 }
 
+// Assist in print a vector
 int printL(vector<int> ls){
     for(int i = 0; i < ls.size(); i++){
         int x = ls[i];
@@ -36,19 +39,7 @@ int printL(vector<int> ls){
     return 0;
 }
 
-vector<int> stalin(vector<int> unsorted){
-    for(int i=1;i<unsorted.size(); i=i){
-        int cp = unsorted[i];
-        int bp = unsorted[i-1];
-        if(cp<bp){
-            unsorted.erase(unsorted.begin()+i);
-        }else{
-            i++;
-            }
-    }
-    return unsorted;
-}
-
+// Randomizes a vector
 vector<int> randomize(vector<int> sorted){
     int len = sorted.size();
     int max = sorted.size();
@@ -63,6 +54,22 @@ vector<int> randomize(vector<int> sorted){
     return random;
 }
 
+// If a number is less then the previous number, delete it. Repeat until sorted (minor data loss)
+vector<int> stalin(vector<int> unsorted){
+    for(int i=1;i<unsorted.size(); i=i){
+        int cp = unsorted[i];
+        int bp = unsorted[i-1];
+        if(cp<bp){
+            unsorted.erase(unsorted.begin()+i);
+        }else{
+            i++;
+            }
+    }
+    return unsorted;
+}
+
+
+// The main code. If you needed a comment to understand what "main" means, I don't know what to say
 int main() {
     vector<int> sorted;
     sorted.resize(101);
