@@ -24,9 +24,9 @@ int printL(vector<int> ls){
     for(int i = 0; i < ls.size(); i++){
         int x = ls[i];
         if(i != ls.size()-1){
-            cout << ls[x] << ", ";  
+            cout << x << ", ";  
         }else{
-            cout << ls[x];
+            cout << x;
         }
         if(i==20 || i==40 || i==60 || i==80){
             cout << "\n";
