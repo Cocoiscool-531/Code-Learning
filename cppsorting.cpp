@@ -1,14 +1,44 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <fstream>
+
+#define CONFIG_FILE_PATH "./CONFIG.cfg"
 
 using namespace std;
 
+// CONFIG READING
+uint elements;
+uint     mode;
+
+bool configRead(){
+    ifstream in(CONFIG_FILE_PATH);
+
+    if (!in.is_open()){ 
+        return false;
+    }
+
+    string param;
+    uint value;
+
+    while(!in.eof()){
+        in >> param;
+        in >> value;
+
+        if(param == "RAND_MODE"){
+            mode = value;
+        }else if(param == "ELEMENTS"){
+            elements = value;
+        }
+    
+    }
+    in.close();
+    cout << "Mode: " << mode << " | Elements: " << elements;
+    return true;
+}
+
 // Counter for how many attempts it takes to sort, primarily used in bogo sort
 int iterations = 0;
-
-// Amount of elements
-const int elements = 20;
 
 // Check if vector is sorted
 bool sorted(vector<int> ls) {
@@ -46,8 +76,8 @@ int printL(vector<int> ls){
     return 0;
 }
 
-// Randomizes a vector
-vector<int> randomize(vector<int> sorted){
+// Randomizes a sequential vector (see mode above for more info)
+vector<int> seqRandomize(vector<int> sorted){
     int len = sorted.size();
     int max = sorted.size();
     vector<int> random;
@@ -61,9 +91,21 @@ vector<int> randomize(vector<int> sorted){
     return random;
 }
 
+// Creates a random vector with [elements] elements and a max value of [mode] for each element
+vector<int> creRandomize(){
+    vector<int> random;
+    random.resize(elements);
+    for(int i=0;i<=elements;i++){
+        random.push_back(randInt(0,mode));
+    }
+    return random;
+}
+
 // SILLY SORTS BELOW:
 
-// Slalin Sort: If a number is less then the previous number, delete it. Repeat until sorted (minor data loss)
+/* Slalin Sort:
+* If a number is less then the previous number, delete it. Repeat until sorted (minor data loss)
+*/
 vector<int> stalin(vector<int> unsorted){
     for(int i=1;i<unsorted.size(); i=i){
         int cp = unsorted[i];
@@ -77,10 +119,12 @@ vector<int> stalin(vector<int> unsorted){
     return unsorted;
 }
 
-// Bogo Sort: If the vector is sorted, return the vector. Else, randomize the list. Repeat until sorted
+/* Bogo Sort:
+* If the vector is sorted, return the vector. Else, randomize the list. Repeat until sorted
+*/
 vector<int> bogo(vector<int> unsorted){
     while(!sorted(unsorted)){
-        unsorted = randomize(unsorted);
+        unsorted = seqRandomize(unsorted);
         iterations++;
         cout << iterations << "\n";
     }
@@ -89,7 +133,7 @@ vector<int> bogo(vector<int> unsorted){
 
 // SERIOUS SORTS NOW:
 
-/* 
+/* Bubble Sort:
 * Compare 2 places at a time, if value of pointer 2 is less than value of pointer 1, 
 * swap them. If value of pointer 2 is greater than value of pointer 1, increment poth 
 * pointers Repeat until sorted
@@ -115,7 +159,8 @@ int main() {
     for(int i = 0; i < elements; i++){
         sorted[i] = i;
     }
-    vector<int> unsorted = randomize(sorted);
+    configRead();
+    vector<int> unsorted = seqRandomize(sorted);
     vector<int> resorted = bubble(unsorted);
     printL(resorted);
 }
