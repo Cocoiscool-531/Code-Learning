@@ -37,13 +37,16 @@ int printL(vector<int> ls){
 }
 
 vector<int> stalin(vector<int> unsorted){
-    vector<int> sorted;
-    for(int i=1;i<unsorted.size(); i++){
-        if(unsorted[i]<unsorted[i-1]){
-            sorted.erase(unsorted.begin()+i);
-        }
+    for(int i=1;i<unsorted.size(); i=i){
+        int cp = unsorted[i];
+        int bp = unsorted[i-1];
+        if(cp<bp){
+            unsorted.erase(unsorted.begin()+i);
+        }else{
+            i++;
+            }
     }
-    return sorted;
+    return unsorted;
 }
 
 vector<int> randomize(vector<int> sorted){
@@ -67,7 +70,6 @@ int main() {
         sorted[i] = i;
     }
     vector<int> unsorted = randomize(sorted);
-    
-    printL(stalin(unsorted));
-
+    vector<int> resorted = stalin(unsorted);
+    printL(resorted);
 }
