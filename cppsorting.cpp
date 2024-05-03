@@ -8,7 +8,7 @@ using namespace std;
 int iterations = 0;
 
 // Amount of elements
-const int elements = 3;
+const int elements = 20;
 
 // Check if vector is sorted
 bool sorted(vector<int> ls) {
@@ -61,6 +61,8 @@ vector<int> randomize(vector<int> sorted){
     return random;
 }
 
+// SILLY SORTS BELOW:
+
 // Slalin Sort: If a number is less then the previous number, delete it. Repeat until sorted (minor data loss)
 vector<int> stalin(vector<int> unsorted){
     for(int i=1;i<unsorted.size(); i=i){
@@ -85,6 +87,27 @@ vector<int> bogo(vector<int> unsorted){
     return unsorted;
 }
 
+// SERIOUS SORTS NOW:
+
+/* 
+* Compare 2 places at a time, if value of pointer 2 is less than value of pointer 1, 
+* swap them. If value of pointer 2 is greater than value of pointer 1, increment poth 
+* pointers Repeat until sorted
+*/
+vector<int> bubble(vector<int> unsorted){
+    while(!sorted(unsorted)){
+        for(int i=0;i<unsorted.size()-1;i++){
+            int p1 = unsorted[i];
+            int p2 = unsorted[i+1];
+            if(p2<p1){
+                unsorted[i+1] = p1;
+                unsorted[i] = p2;
+            }
+        }
+    }
+    return unsorted;
+}
+
 // The main code. If you needed a comment to understand what "main" means, I don't know what to say.
 int main() {
     vector<int> sorted;
@@ -93,6 +116,6 @@ int main() {
         sorted[i] = i;
     }
     vector<int> unsorted = randomize(sorted);
-    vector<int> resorted = bogo(unsorted);
+    vector<int> resorted = bubble(unsorted);
     printL(resorted);
 }
