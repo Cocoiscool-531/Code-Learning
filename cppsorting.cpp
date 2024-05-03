@@ -8,8 +8,8 @@
 using namespace std;
 
 // CONFIG READING
-uint elements;
-uint     mode;
+uint ELEMENTS;
+uint     RAND_MODE;
 
 bool configRead(){
     fstream in;
@@ -19,15 +19,36 @@ bool configRead(){
         return false;
     }
 
-    while(!mode || !elements && !in.eof()){
+    bool loop = true;
+    bool RAND_MODESet = false;
+    bool elementSet = false;
+
+    while(loop){
         string curLine;
         getline(in, curLine);
+
+        string parsedNum;
         if(curLine.find("RAND_MODE=")!=string::npos){
-            std::cout << 
+            for(char& c : curLine){
+                if(c >= '0' && c <= '9'){
+                    parsedNum += c;
+                }
+            }
+            RAND_MODE = stoi(parsedNum);
+            parsedNum.clear();
+            RAND_MODESet = true;
         }
         if(curLine.find("ELEMENTS=")!=string::npos){
-            std::cout << "test two found \n";
+            for(char& c : curLine){
+                if(c >= '0' && c <= '9'){
+                    parsedNum += c;
+                }
+            }
+            ELEMENTS = stoi(parsedNum);
+            parsedNum.clear();
+            elementSet = true;
         }
+        if(RAND_MODESet && elementSet){break;}
 
     }
 
@@ -65,15 +86,12 @@ int printL(vector<int> ls){
         }else{
             cout << x;
         }
-        if(i==20 || i==40 || i==60 || i==80){
-            cout << "\n";
-        }
             
         }
     return 0;
 }
 
-// Randomizes a sequential vector (see mode above for more info)
+// Randomizes a sequential vector (see RAND_MODE above for more info)
 vector<int> seqRandomize(vector<int> sorted){
     int len = sorted.size();
     int max = sorted.size();
@@ -88,12 +106,11 @@ vector<int> seqRandomize(vector<int> sorted){
     return random;
 }
 
-// Creates a random vector with [elements] elements and a max value of [mode] for each element
+// Creates a random vector with [ELEMENTS] ELEMENTS and a max value of [RAND_MODE] for each element
 vector<int> creRandomize(){
     vector<int> random;
-    random.resize(elements);
-    for(int i=0;i<=elements;i++){
-        random.push_back(randInt(0,mode));
+    for(int i=0;i<=ELEMENTS;i++){
+        random.push_back(randInt(0,RAND_MODE));
     }
     return random;
 }
@@ -125,6 +142,8 @@ vector<int> bogo(vector<int> unsorted){
         iterations++;
         cout << iterations << "\n";
     }
+    cout << "\n \n Sorted! Only took " << iterations << " attempts! \n \n";
+
     return unsorted;
 }
 
@@ -151,13 +170,19 @@ vector<int> bubble(vector<int> unsorted){
 
 // The main code. If you needed a comment to understand what "main" means, I don't know what to say.
 int main() {
-    vector<int> sorted;
-    sorted.resize(elements);
-    for(int i = 0; i < elements; i++){
-        sorted[i] = i;
-    }
     configRead();
-    vector<int> unsorted = seqRandomize(sorted);
-    vector<int> resorted = bubble(unsorted);
+
+    vector<int> sorted;
+    vector<int> unsorted;
+    sorted.resize(ELEMENTS);
+    if(RAND_MODE==0){
+        for(int i = 0; i < ELEMENTS; i++){
+            sorted[i] = i;
+        }
+        unsorted = seqRandomize(sorted);
+    }else{
+        unsorted = creRandomize();
+    }
+    vector<int> resorted = bogo(unsorted);
     printL(resorted);
 }
