@@ -3,6 +3,13 @@
 #include <random>
 
 using namespace std;
+
+// Counter for how many attempts it takes to sort, primarily used in bogo sort
+int iterations = 0;
+
+// Amount of elements
+const int elements = 3;
+
 // Check if vector is sorted
 bool sorted(vector<int> ls) {
     for(int i=1;i<ls.size();i++){
@@ -54,7 +61,7 @@ vector<int> randomize(vector<int> sorted){
     return random;
 }
 
-// If a number is less then the previous number, delete it. Repeat until sorted (minor data loss)
+// Slalin Sort: If a number is less then the previous number, delete it. Repeat until sorted (minor data loss)
 vector<int> stalin(vector<int> unsorted){
     for(int i=1;i<unsorted.size(); i=i){
         int cp = unsorted[i];
@@ -68,15 +75,24 @@ vector<int> stalin(vector<int> unsorted){
     return unsorted;
 }
 
+// Bogo Sort: If the vector is sorted, return the vector. Else, randomize the list. Repeat until sorted
+vector<int> bogo(vector<int> unsorted){
+    while(!sorted(unsorted)){
+        unsorted = randomize(unsorted);
+        iterations++;
+        cout << iterations << "\n";
+    }
+    return unsorted;
+}
 
-// The main code. If you needed a comment to understand what "main" means, I don't know what to say
+// The main code. If you needed a comment to understand what "main" means, I don't know what to say.
 int main() {
     vector<int> sorted;
-    sorted.resize(101);
-    for(int i = 0; i < 101; i++){
+    sorted.resize(elements);
+    for(int i = 0; i < elements; i++){
         sorted[i] = i;
     }
     vector<int> unsorted = randomize(sorted);
-    vector<int> resorted = stalin(unsorted);
+    vector<int> resorted = bogo(unsorted);
     printL(resorted);
 }
