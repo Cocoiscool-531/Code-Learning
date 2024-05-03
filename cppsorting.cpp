@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <string>
 #include <fstream>
-
 #define CONFIG_FILE_PATH "./CONFIG.cfg"
 
 using namespace std;
@@ -13,17 +13,24 @@ uint     mode;
 
 bool configRead(){
     fstream in;
-    in.open(CONFIG_FILE_PATH, ios::out);
+    in.open(CONFIG_FILE_PATH, ios::in);
 
     if (!in.is_open()){ 
         return false;
     }
 
-    string line14;
-    string line17;
+    while(!mode || !elements && !in.eof()){
+        string curLine;
+        getline(in, curLine);
+        if(curLine.find("RAND_MODE=")!=string::npos){
+            std::cout << 
+        }
+        if(curLine.find("ELEMENTS=")!=string::npos){
+            std::cout << "test two found \n";
+        }
 
-    in.close();
-    std::cout << "Mode: " << mode << " | Elements: " << elements;
+    }
+
     return true;
 }
 
