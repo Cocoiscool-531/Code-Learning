@@ -12,28 +12,18 @@ uint elements;
 uint     mode;
 
 bool configRead(){
-    ifstream in(CONFIG_FILE_PATH);
+    fstream in;
+    in.open(CONFIG_FILE_PATH, ios::out);
 
     if (!in.is_open()){ 
         return false;
     }
 
-    string param;
-    uint value;
+    string line14;
+    string line17;
 
-    while(!in.eof()){
-        in >> param;
-        in >> value;
-
-        if(param == "RAND_MODE"){
-            mode = value;
-        }else if(param == "ELEMENTS"){
-            elements = value;
-        }
-    
-    }
     in.close();
-    cout << "Mode: " << mode << " | Elements: " << elements;
+    std::cout << "Mode: " << mode << " | Elements: " << elements;
     return true;
 }
 
