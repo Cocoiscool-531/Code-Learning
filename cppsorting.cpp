@@ -3,17 +3,22 @@
 #include <random>
 #include <string>
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
+//#include <GL/glew.h>
+//#include <GLFW/glwf3.h>
+//#include <glm/glm.hpp>
 #define CONFIG_FILE_PATH "./CONFIG.cfg"
 
-using namespace std;
+//using namespace glm;
 
 // CONFIG READING
 uint ELEMENTS;
 uint     RAND_MODE;
 
 bool configRead(){
-    fstream in;
-    in.open(CONFIG_FILE_PATH, ios::in);
+    std::fstream in;
+    in.open(CONFIG_FILE_PATH, std::ios::in);
 
     if (!in.is_open()){ 
         return false;
@@ -24,11 +29,11 @@ bool configRead(){
     bool elementSet = false;
 
     while(loop){
-        string curLine;
-        getline(in, curLine);
+        std::string curLine;
+        std::getline(in, curLine);
 
-        string parsedNum;
-        if(curLine.find("RAND_MODE=")!=string::npos){
+        std::string parsedNum;
+        if(curLine.find("RAND_MODE=")!= std::string::npos){
             for(char& c : curLine){
                 if(c >= '0' && c <= '9'){
                     parsedNum += c;
@@ -38,7 +43,7 @@ bool configRead(){
             parsedNum.clear();
             RAND_MODESet = true;
         }
-        if(curLine.find("ELEMENTS=")!=string::npos){
+        if(curLine.find("ELEMENTS=")!=std::string::npos){
             for(char& c : curLine){
                 if(c >= '0' && c <= '9'){
                     parsedNum += c;
@@ -59,7 +64,7 @@ bool configRead(){
 int iterations = 0;
 
 // Check if vector is sorted
-bool sorted(vector<int> ls) {
+bool sorted(std::vector<int> ls) {
     for(int i=1;i<ls.size();i++){
         if(ls[i] < ls[i-1]){
             return false;
@@ -70,32 +75,45 @@ bool sorted(vector<int> ls) {
 
 // Return a random int between min and max inclusive
 int randInt(int min,int max){
-    random_device                  rand_dev;
-    mt19937                        generator(rand_dev());
-    uniform_int_distribution<int>  distr(min, max-1);
+    std::random_device                  rand_dev;
+    std::mt19937                        generator(rand_dev());
+    std::uniform_int_distribution<int>  distr(min, max-1);
 
     return distr(generator);
 }
 
 // Assist in print a vector
-int printL(vector<int> ls){
+int printL(std::vector<int> ls){
     for(int i = 0; i < ls.size(); i++){
         int x = ls[i];
         if(i != ls.size()-1){
-            cout << x << ", ";  
+            std::cout << x << ", ";  
         }else{
-            cout << x;
+            std::cout << x;
         }
             
         }
     return 0;
 }
 
+bool initOpenGL(){
+    glewExperimental = true; // Needed for core profile
+if( !glfwInit() )
+{
+    std::cout << ( stderr, "Failed to initialize GLFW\n" );
+    return -1;
+}
+}
+
+int visualVector(std::vector<int> vector){
+
+}
+
 // Randomizes a sequential vector (see RAND_MODE above for more info)
-vector<int> seqRandomize(vector<int> sorted){
+std::vector<int> seqRandomize(std::vector<int> sorted){
     int len = sorted.size();
     int max = sorted.size();
-    vector<int> random;
+    std::vector<int> random;
     random.resize(len);
     for(int i=0;i<len;i++){
         int x = randInt(0,max);
@@ -107,8 +125,8 @@ vector<int> seqRandomize(vector<int> sorted){
 }
 
 // Creates a random vector with [ELEMENTS] ELEMENTS and a max value of [RAND_MODE] for each element
-vector<int> creRandomize(){
-    vector<int> random;
+std::vector<int> creRandomize(){
+    std::vector<int> random;
     for(int i=0;i<=ELEMENTS;i++){
         random.push_back(randInt(0,RAND_MODE));
     }
@@ -120,7 +138,7 @@ vector<int> creRandomize(){
 /* Slalin Sort:
 * If a number is less then the previous number, delete it. Repeat until sorted (minor data loss)
 */
-vector<int> stalin(vector<int> unsorted){
+std::vector<int> stalin(std::vector<int> unsorted){
     for(int i=1;i<unsorted.size(); i=i){
         int cp = unsorted[i];
         int bp = unsorted[i-1];
@@ -136,13 +154,13 @@ vector<int> stalin(vector<int> unsorted){
 /* Bogo Sort:
 * If the vector is sorted, return the vector. Else, randomize the list. Repeat until sorted
 */
-vector<int> bogo(vector<int> unsorted){
+std::vector<int> bogo(std::vector<int> unsorted){
     while(!sorted(unsorted)){
         unsorted = seqRandomize(unsorted);
         iterations++;
-        cout << iterations << "\n";
+        std::cout << iterations << "\n";
     }
-    cout << "\n \n Sorted! Only took " << iterations << " attempts! \n \n";
+    std::cout << "\n \n Sorted! Only took " << iterations << " attempts! \n \n";
 
     return unsorted;
 }
@@ -154,7 +172,7 @@ vector<int> bogo(vector<int> unsorted){
 * swap them. If value of pointer 2 is greater than value of pointer 1, increment poth 
 * pointers Repeat until sorted
 */
-vector<int> bubble(vector<int> unsorted){
+std::vector<int> bubble(std::vector<int> unsorted){
     while(!sorted(unsorted)){
         for(int i=0;i<unsorted.size()-1;i++){
             int p1 = unsorted[i];
@@ -172,8 +190,8 @@ vector<int> bubble(vector<int> unsorted){
 int main() {
     configRead();
 
-    vector<int> sorted;
-    vector<int> unsorted;
+    std::vector<int> sorted;
+    std::vector<int> unsorted;
     sorted.resize(ELEMENTS);
     if(RAND_MODE==0){
         for(int i = 0; i < ELEMENTS; i++){
@@ -183,6 +201,6 @@ int main() {
     }else{
         unsorted = creRandomize();
     }
-    vector<int> resorted = bogo(unsorted);
+    std::vector<int> resorted = bubble(unsorted);
     printL(resorted);
 }
