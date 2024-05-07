@@ -15,6 +15,7 @@ std::string encrypted;
 
 const std::string abc = "abcdefghijklmnopqrstuvwxyz";
 const std::string zyx = "zyxwvutsrqponmlkjihgfedcba";
+const std::string ceaserShifter = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
 std::string customKey;
 bool configRead(){
     std::fstream cfg;
@@ -60,6 +61,7 @@ bool configRead(){
 }
 
 bool customInit(){
+
     bool startCustKey = false;
     int custKeyPointer = 0;
     std::fstream cust;
@@ -84,26 +86,28 @@ bool customInit(){
     return true;
 }
 
-bool custom(){
-    customInit();
-    std::string decrypted;
+std::string custom(){
     for(int i = 0; i <= encrypted.length();i++){
-        std::string c = encrypted[i];
+        char c = encrypted[i];
         int abcPos = abc.find(c);
         encrypted[i] = customKey[abcPos];
     }
-    std::cout << encrypted;
-    return true;
+    return encrypted;
 }
 
-bool reverse(){return true;}
-
-bool ceaser(int shift){return true;}
+std::string ceaser(int shift){
+    
+    return encrypted;
+}
 
 int main(){
     configRead();
     if(isCeaser==false&&mode==0){
-        custom();
+        customInit();
+        std::cout << custom();
+    }else if(isCeaser==false&&mode==1){
+        customKey = zyx;
+        std::cout << custom();
     }
     return 0;
 }
