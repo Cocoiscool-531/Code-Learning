@@ -8,7 +8,7 @@
 //#include <GL/glew.h>
 //#include <GLFW/glwf3.h>
 //#include <glm/glm.hpp>
-#define CONFIG_FILE_PATH "./CONFIG.cfg"
+#define CONFIG_FILE_PATH "./sorting.cfg"
 
 //using namespace glm;
 
@@ -96,14 +96,14 @@ int printL(std::vector<int> ls){
     return 0;
 }
 
+/* to be added
 bool initOpenGL(){
     glewExperimental = true; // Needed for core profile
-if( !glfwInit() )
-{
-    std::cout << ( stderr, "Failed to initialize GLFW\n" );
-    return -1;
-}
-}
+    if( !glfwInit() ){ 
+        std::cout << ( stderr, "Failed to initialize GLFW\n" );
+        return -1;
+    }
+}*/
 
 int visualVector(std::vector<int> vector){
 
@@ -201,6 +201,6 @@ int main() {
     }else{
         unsorted = creRandomize();
     }
-    std::vector<int> resorted = bubble(unsorted);
+    std::vector<int> resorted = bogo(unsorted);
     printL(resorted);
 }
