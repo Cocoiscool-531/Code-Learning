@@ -11,10 +11,11 @@
 // 0=custom, 1=reverse. If ceaser=true, mode=mode
 int mode;
 bool isCeaser;
+std::string encrypted;
 
-const std::vector<std::string> abc({"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"});
-const std::vector<std::string> zyx({"z","y","x","w","v","u","t","s","r","q","p","o","n","m","l","k","j","i","h","g","f","e","d","c","b","a"});
-std::vector<std::string> customKey;
+const std::string abc = "abcdefghijklmnopqrstuvwxyz";
+const std::string zyx = "zyxwvutsrqponmlkjihgfedcba";
+std::string customKey;
 bool configRead(){
     std::fstream cfg;
     cfg.open(CONFIG_FILE_PATH, std::ios::in);
@@ -30,7 +31,12 @@ bool configRead(){
         std::getline(cfg, curLine);
 
         std::string parsedNum;
-        if(curLine.find("Method=")!= std::string::npos && !modeSet){
+        if(curLine.find("Encrypted=")!= std::string::npos){
+            for(int i = 10; i < curLine.length();i++){
+                encrypted += curLine[i];
+            }
+        }
+        if(curLine.find("Method=") != std::string::npos && !modeSet){
             if(curLine.find("Method=\"Custom\"")!= std::string::npos ){
                 mode=0;
             }else if(curLine.find("Method=\"Reverse\"")!= std::string::npos ){
@@ -47,36 +53,46 @@ bool configRead(){
                 parsedNum.clear();
             }
             modeSet = true;
+            break;
         }
     }
     return true;
 }
 
 bool customInit(){
-    customKey.resize(35);
+    bool startCustKey = false;
     int custKeyPointer = 0;
     std::fstream cust;
     cust.open(CONFIG_FILE_PATH, std::ios::in);
 
     if(cust.is_open()!=true){return false;}
-    bool startCustKey;
+    
     while(true){
         std::string curLine;
         std::getline(cust,curLine);
 
-        if(curLine.find("a=")){
+        if(curLine.find("a=")!= std::string::npos){
             startCustKey = true;
         }
 
-        if(startCustKey && custKeyPointer <= 35){
-            customKey[custKeyPointer] = (curLine[2]);
+        if(startCustKey && custKeyPointer <= 25){
+            customKey += (curLine[2]);
             custKeyPointer++;
         }
+        if(custKeyPointer > 25){break;}
     }
+    return true;
 }
 
 bool custom(){
     customInit();
+    std::string decrypted;
+    for(int i = 0; i <= encrypted.length();i++){
+        std::string c = encrypted[i];
+        int abcPos = abc.find(c);
+        encrypted[i] = customKey[abcPos];
+    }
+    std::cout << encrypted;
     return true;
 }
 
