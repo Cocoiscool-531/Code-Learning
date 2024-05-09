@@ -14,8 +14,8 @@ bool isCeaser;
 std::string encrypted;
 
 const std::string abc = "abcdefghijklmnopqrstuvwxyz";
-const std::string zyx = "zyxwvutsrqponmlkjihgfedcba";
-const std::string ceaserShifter = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
+const std::string zyx = "zyxwvutsrqponmlkjihgfedcba ";
+const std::string ceaserShifter = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
 std::string customKey;
 bool configRead(){
     std::fstream cfg;
@@ -38,9 +38,9 @@ bool configRead(){
             }
         }
         if(curLine.find("Method=") != std::string::npos && !modeSet){
-            if(curLine.find("Method=\"Custom\"")!= std::string::npos ){
+            if(curLine.find("Method=Custom")!= std::string::npos ){
                 mode=0;
-            }else if(curLine.find("Method=\"Reverse\"")!= std::string::npos ){
+            }else if(curLine.find("Method=Reverse")!= std::string::npos ){
                 mode=1;
             }
             else{
@@ -89,14 +89,33 @@ bool customInit(){
 std::string custom(){
     for(int i = 0; i <= encrypted.length();i++){
         char c = encrypted[i];
-        int abcPos = abc.find(c);
-        encrypted[i] = customKey[abcPos];
+        if(c==' '){
+            encrypted[i] = ' ';
+        }else{
+            int abcPos = abc.find(c);
+            encrypted[i] = customKey[abcPos];
+        }
     }
     return encrypted;
 }
 
 std::string ceaser(int shift){
-    
+    shift += 1;
+    std::string decryptedF;
+    std::string decryptedB;
+    for(int i = 0; i <= encrypted.length();i++){
+        char c = encrypted[i];
+        if(c == ' '){
+            decryptedF += ' ';
+            decryptedB += ' ';
+        }else{
+            int abcPos = abc.find(c)+1;
+            decryptedF += ceaserShifter[26+abcPos+shift];
+            decryptedB += ceaserShifter[26+abcPos-shift];
+        }
+    }
+    std::cout << "Shifting Forward by " << shift-1 << ":  " << decryptedF << "\n";
+    std::cout << "Shifting Backward by " << shift-1 << ": " << decryptedB << "\n";
     return encrypted;
 }
 
@@ -108,6 +127,8 @@ int main(){
     }else if(isCeaser==false&&mode==1){
         customKey = zyx;
         std::cout << custom();
+    }else if(isCeaser==true){
+        ceaser(mode);
     }
     return 0;
 }
