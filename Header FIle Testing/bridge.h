@@ -1,2 +1,0 @@
-namespace test{};
-void myFunc();
