@@ -96,15 +96,6 @@ int printL(std::vector<int> ls){
     return 0;
 }
 
-/* to be added
-bool initOpenGL(){
-    glewExperimental = true; // Needed for core profile
-    if( !glfwInit() ){ 
-        std::cout << ( stderr, "Failed to initialize GLFW\n" );
-        return -1;
-    }
-}*/
-
 int visualVector(std::vector<int> vector){
 
 }
