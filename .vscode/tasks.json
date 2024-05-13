@@ -7,8 +7,7 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}/Snake/Headers/*.cpp",
-                "${workspaceFolder}/Snake/Headers/*.h",
+                //"${workspaceFolder}/C++/Snake/*.cpp",
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
