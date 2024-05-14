@@ -1,3 +1,3 @@
 layout: page
 title: "Snake"
-permalink: /
+permalink: /Snake/
