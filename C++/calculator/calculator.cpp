@@ -5,13 +5,23 @@
 
 int main(){
     std::vector<float> original;
-    std::cout << "Please Enter Each Number, press enter after each. Only floats. Press enter with nothing to finish.\n";
+    std::cout << "Please Enter Each Number, press enter after each. Only floats. Press enter with \"end\" finish.\n";
     bool loopActive = true;
     while(loopActive){
         std::string input;
         int inputInt;
         std::cin >> input;
-        inputInt = std::stoi(input);
-        original.push_back(inputInt);
+        if(input=="end"){
+            break;
+        }else{
+            std::string parsedNum;
+            for(char& c : input){
+                    if(c >= '0' && c <= '9'){
+                        parsedNum += c;
+                    }
+            inputInt = std::stoi(parsedNum);
+            original.push_back(inputInt);
+        }
     }
+    std::cout << original;
 }
