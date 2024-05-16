@@ -4,9 +4,9 @@
 #include <vector>
 #include <sortingFunctions.h>
 
-sortingFuncs test;
+sortingFuncs sf;
 
 int main(){
     std::vector<float> original;
-    randInt(0,45);
+    std::cout << sf.randInt(1,5);
 }

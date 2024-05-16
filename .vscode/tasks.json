@@ -7,8 +7,10 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}/C++/include/*.cpp",
-                "${workspaceFolder}/C++/include/*.h",
+                "${workspaceFolder}/C++/calculator/include/*.cpp",
+                "${workspaceFolder}/C++/calculator/include/*.h",
+                "${workspaceFolder}/C++/Header File Testing/host.cpp",
+                "${workspaceFolder}/C++/Header File Testing/bridge.h",
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"

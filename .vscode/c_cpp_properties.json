@@ -3,8 +3,9 @@
         {
             "name": "linux-gcc-x64",
             "includePath": [
-                "${workspaceFolder}/C++/include/**",
-                "/usr/include/"
+                "${workspaceFolder}/**",
+                "/usr/include/",
+                "${workspaceFolder}/C++/calculator/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
