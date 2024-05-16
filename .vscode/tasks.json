@@ -7,10 +7,8 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}/C++/calculator/include/*.cpp",
-                "${workspaceFolder}/C++/calculator/include/*.h",
-                "${workspaceFolder}/C++/Header File Testing/host.cpp",
-                "${workspaceFolder}/C++/Header File Testing/bridge.h",
+                "${workspaceFolder}/C++/calculator/include/sortingFunctions.cpp",
+                "${workspaceFolder}/C++/calculator/include/sortingFunctions.h",
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"

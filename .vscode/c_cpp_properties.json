@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include/",
-                "${workspaceFolder}/C++/calculator/include"
+                "${workspaceFolder}/C++/calculator/include",
+                "${workspaceFolder}/C++/calculator"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

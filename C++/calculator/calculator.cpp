@@ -2,11 +2,11 @@
 #include <math.h>
 #include <string>
 #include <vector>
-#include <sortingFunctions.h>
+#include "include/sortingFunctions.h"
 
-sortingFuncs sf;
+//sortingFuncs sf;
 
 int main(){
     std::vector<float> original;
-    std::cout << sf.randInt(1,5);
+    //std::cout << sf.randInt(1,5);
 }
