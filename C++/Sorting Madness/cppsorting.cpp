@@ -5,16 +5,14 @@
 #include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
-//#include <GL/glew.h>
-//#include <GLFW/glwf3.h>
-//#include <glm/glm.hpp>
+#include <sortingFunctions.h>
 #define CONFIG_FILE_PATH "./sorting.cfg"
 
-//using namespace glm;
+sortingFuncs sf;
 
 // CONFIG READING
 uint ELEMENTS;
-uint     RAND_MODE;
+uint RAND_MODE;
 
 bool configRead(){
     std::fstream in;
@@ -63,43 +61,6 @@ bool configRead(){
 // Counter for how many attempts it takes to sort, primarily used in bogo sort
 int iterations = 0;
 
-// Check if vector is sorted
-bool sorted(std::vector<int> ls) {
-    for(int i=1;i<ls.size();i++){
-        if(ls[i] < ls[i-1]){
-            return false;
-        }
-    }
-    return true;
-}
-
-// Return a random int between min and max inclusive
-int randInt(int min,int max){
-    std::random_device                  rand_dev;
-    std::mt19937                        generator(rand_dev());
-    std::uniform_int_distribution<int>  distr(min, max-1);
-
-    return distr(generator);
-}
-
-// Assist in print a vector
-int printL(std::vector<int> ls){
-    for(int i = 0; i < ls.size(); i++){
-        int x = ls[i];
-        if(i != ls.size()-1){
-            std::cout << x << ", ";  
-        }else{
-            std::cout << x;
-        }
-            
-        }
-    return 0;
-}
-
-int visualVector(std::vector<int> vector){
-
-}
-
 // Randomizes a sequential vector (see RAND_MODE above for more info)
 std::vector<int> seqRandomize(std::vector<int> sorted){
     int len = sorted.size();
@@ -107,7 +68,7 @@ std::vector<int> seqRandomize(std::vector<int> sorted){
     std::vector<int> random;
     random.resize(len);
     for(int i=0;i<len;i++){
-        int x = randInt(0,max);
+        int x = sf.randInt(0,max);
         random[i] = sorted[x];
         sorted.erase(sorted.begin()+x);
         max--;
@@ -146,7 +107,7 @@ std::vector<int> stalin(std::vector<int> unsorted){
 * If the vector is sorted, return the vector. Else, randomize the list. Repeat until sorted
 */
 std::vector<int> bogo(std::vector<int> unsorted){
-    while(!sorted(unsorted)){
+    while(!intSorted(unsorted)){
         unsorted = seqRandomize(unsorted);
         iterations++;
         std::cout << iterations << "\n";
