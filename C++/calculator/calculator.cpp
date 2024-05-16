@@ -2,7 +2,7 @@
 #include <math.h>
 #include <string>
 #include <vector>
-#include "include/sortingFunctions.h"
+#include <include/sortingFunctions.h>
 
 //sortingFuncs sf;
 
