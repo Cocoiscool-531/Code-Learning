@@ -1,7 +1,7 @@
 #include <vector>
 #include <random>
 #include <iostream>
-#include <sortingFunctions.h>
+#include <calculator/include/sortingFunctions.h>
 
 // Check if a vector is sorted.
 bool sortingFuncs::intSorted(std::vector<int> ls) {
@@ -17,8 +17,9 @@ bool sortingFuncs::floatSorted(std::vector<float> ls) {
         if(ls[i] < ls[i-1]){
             return false;
         }
-    }
+
     return true;
+    }
 }
 
 // Return a random int between min and max inclusive
