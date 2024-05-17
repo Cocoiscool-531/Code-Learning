@@ -6,6 +6,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-fdiagnostics-color=always",
+                "-i",
                 "-g",
                 "${workspaceFolder}/C++/calculator/include/sortingFunctions.cpp",
                 "${workspaceFolder}/C++/calculator/include/sortingFunctions.h",

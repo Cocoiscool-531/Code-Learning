@@ -1,7 +1,7 @@
 #include <vector>
 #include <random>
 #include <iostream>
-#include <calculator/include/sortingFunctions.h>
+#include <C++/calculator/include/sortingFunctions.h>
 
 // Check if a vector is sorted.
 bool sortingFuncs::intSorted(std::vector<int> ls) {
